@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {TodoContext} from "../contexts/TodoContext";
-import {Icon, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField} from "@mui/material";
+import {IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
