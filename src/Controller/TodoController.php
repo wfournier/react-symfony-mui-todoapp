@@ -50,11 +50,11 @@ class TodoController extends AbstractController
 
             return $this->json([
                 'todo' => $todo->toArray(),
-                'message' => ['text' => ['To-Do created successfully', 'Task: ' . $content->name], 'level' => 'success'],
+                'message' => ['text' => 'Task created successfully', 'level' => 'success'],
             ]);
         } catch (Exception $exception) {
             return $this->json([
-                'message' => ['text' => ['Error while trying to submit To-Do to the database'], 'level' => 'error'],
+                'message' => ['text' => 'Error while trying to submit task to the database', 'level' => 'error'],
             ]);
         }
     }
@@ -71,12 +71,12 @@ class TodoController extends AbstractController
             $this->entityManager->flush();
 
             return $this->json([
-                'message' => 'To-Do successfully updated',
                 'todo' => $todo->toArray(),
+                'message' => ['text' => 'Task updated successfully', 'level' => 'success'],
             ]);
         } catch (Exception $exception) {
             return $this->json([
-                'error' => $exception->getMessage(),
+                'message' => ['text' => 'Error while trying to update task in the database', 'level' => 'error'],
             ]);
         }
     }
@@ -93,11 +93,11 @@ class TodoController extends AbstractController
             $this->entityManager->flush();
 
             return $this->json([
-                'message' => 'To-Do successfully deleted',
+                'message' => ['text' => 'Task deleted successfully', 'level' => 'success'],
             ]);
         } catch (Exception $exception) {
             return $this->json([
-                'error' => $exception->getMessage(),
+                'message' => ['text' => 'Error while trying to delete task in the database', 'level' => 'error'],
             ]);
         }
     }

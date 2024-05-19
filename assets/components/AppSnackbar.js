@@ -1,4 +1,4 @@
-import React, {Fragment, useContext} from 'react';
+import React, {useContext} from 'react';
 import {Button, Snackbar, SnackbarContent} from "@mui/material";
 import {TodoContext} from "../contexts/TodoContext";
 
@@ -25,12 +25,7 @@ function AppSnackbar() {
                   open={context.message.text !== undefined}>
             {context.message.text && (
                 <SnackbarContent style={{backgroundColor: getLevelColor(context.message.level)}}
-                                 message={context.message.text.map((text, index) => (
-                                     <Fragment key={index + ' ' + text}>
-                                         <span>{text}</span>
-                                         <br/>
-                                     </Fragment>
-                                 ))} action={[
+                                 message={context.message.text} action={[
                     <Button onClick={hide} key={'dismiss'} color='inherit'>Dismiss</Button>
                 ]}/>
             )}

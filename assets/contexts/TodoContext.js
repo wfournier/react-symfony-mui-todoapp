@@ -18,18 +18,19 @@ class TodoContextProvider extends Component {
         event.preventDefault();
         axios.post('/api/todo/create', todo)
             .then(response => {
-                if (response.data.message.level === 'success') {
-                    let data = [...this.state.todos];
-                    data.push(response.data.todo);
-                    this.setState({
-                        todos: data,
-                        message: response.data.message,
-                    })
-                } else {
+                if (response.data.message.level === 'error') {
                     this.setState({
                         message: response.data.message,
-                    })
+                    });
+                    return;
                 }
+
+                let data = [...this.state.todos];
+                data.push(response.data.todo);
+                this.setState({
+                    todos: data,
+                    message: response.data.message,
+                })
             }).catch(error => {
             console.error(error);
         })
@@ -51,6 +52,13 @@ class TodoContextProvider extends Component {
     updateTodo(data) {
         axios.put('/api/todo/update', data)
             .then(response => {
+                if (response.data.message.level === 'error') {
+                    this.setState({
+                        message: response.data.message,
+                    });
+                    return;
+                }
+
                 let todos = [...this.state.todos];
                 let todo = todos.find(todo => {
                     return todo.id === data.id
@@ -59,6 +67,7 @@ class TodoContextProvider extends Component {
                 todo.name = data.name;
                 this.setState({
                     todos: todos,
+                    message: response.data.message,
                 });
             }).catch(error => {
             console.error(error);
@@ -71,6 +80,13 @@ class TodoContextProvider extends Component {
         // The signature of axios.delete is different and the data needs to be passed in another data object
         axios.delete('/api/todo/delete', {data: data})
             .then(response => {
+                if (response.data.message.level === 'error') {
+                    this.setState({
+                        message: response.data.message,
+                    });
+                    return;
+                }
+
                 let todos = [...this.state.todos];
                 let todo = todos.find(todo => {
                     return todo.id === data.id;
@@ -79,6 +95,7 @@ class TodoContextProvider extends Component {
                 todos.splice(todos.indexOf((todo)), 1);
                 this.setState({
                     todos: todos,
+                    message: response.data.message,
                 })
             }).catch(error => {
             console.error(error);
