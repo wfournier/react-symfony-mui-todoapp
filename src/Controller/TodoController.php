@@ -24,8 +24,8 @@ class TodoController extends AbstractController
         $this->todoRepository = $todoRepository;
     }
 
-    #[Route('/read', name: 'api_todo_read')]
-    public function index(): JsonResponse
+    #[Route('/read', name: 'api_todo_read', methods: ['GET'])]
+    public function read(): JsonResponse
     {
         $todos = $this->todoRepository->findAll();
 
@@ -37,18 +37,42 @@ class TodoController extends AbstractController
         return $this->json($arrayOfTodos);
     }
 
-    #[Route('/create', name: 'app_todo_create')]
+    #[Route('/create', name: 'api_todo_create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
         $content = json_decode($request->getContent());
 
         $todo = new Todo();
         $todo->setName($content->name);
+
         try {
             $this->entityManager->persist($todo);
             $this->entityManager->flush();
 
             return $this->json([
+                'message' => 'Todo successfully created',
+                'todo' => $todo->toArray(),
+            ]);
+        } catch (Exception $exception) {
+            return $this->json([
+                'error' => $exception->getMessage(),
+            ]);
+        }
+    }
+
+    #[Route('/update', name: 'api_todo_update', methods: ['PUT'])]
+    public function update(Request $request): JsonResponse
+    {
+        $content = json_decode($request->getContent());
+
+        $todo = $this->todoRepository->findOneBy(['id' => $content->id]);
+        $todo->setName($content->name);
+
+        try {
+            $this->entityManager->flush();
+
+            return $this->json([
+                'message' => 'Todo successfully updated',
                 'todo' => $todo->toArray(),
             ]);
         } catch (Exception $exception) {
