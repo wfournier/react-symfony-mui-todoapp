@@ -61,7 +61,6 @@ class TodoContextProvider extends Component {
 
     // delete
     deleteTodo(data) {
-        console.log(data);
         axios.delete('/api/todo/delete/' + data.id)
             .then(response => {
                 let todos = [...this.state.todos];
