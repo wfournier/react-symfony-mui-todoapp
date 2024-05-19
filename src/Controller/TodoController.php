@@ -19,7 +19,6 @@ class TodoController extends AbstractController
 
     public function __construct(EntityManagerInterface $entityManager, TodoRepository $todoRepository)
     {
-
         $this->entityManager = $entityManager;
         $this->todoRepository = $todoRepository;
     }
@@ -50,12 +49,12 @@ class TodoController extends AbstractController
             $this->entityManager->flush();
 
             return $this->json([
-                'message' => 'Todo successfully created',
                 'todo' => $todo->toArray(),
+                'message' => ['text' => ['To-Do created successfully', 'Task: ' . $content->name], 'level' => 'success'],
             ]);
         } catch (Exception $exception) {
             return $this->json([
-                'error' => $exception->getMessage(),
+                'message' => ['text' => ['Error while trying to submit To-Do to the database'], 'level' => 'error'],
             ]);
         }
     }
@@ -72,7 +71,7 @@ class TodoController extends AbstractController
             $this->entityManager->flush();
 
             return $this->json([
-                'message' => 'Todo successfully updated',
+                'message' => 'To-Do successfully updated',
                 'todo' => $todo->toArray(),
             ]);
         } catch (Exception $exception) {
@@ -94,7 +93,7 @@ class TodoController extends AbstractController
             $this->entityManager->flush();
 
             return $this->json([
-                'message' => 'Todo successfully deleted',
+                'message' => 'To-Do successfully deleted',
             ]);
         } catch (Exception $exception) {
             return $this->json([
