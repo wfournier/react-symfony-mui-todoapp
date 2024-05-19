@@ -15,10 +15,16 @@ class TodoContextProvider extends Component {
     // create
     createTodo(event, todo) {
         event.preventDefault();
-        let data = [...this.state.todos];
-        data.push(todo);
-        this.setState({
-            todos: data,
+        axios.post('/api/todo/create', todo)
+            .then(response => {
+                console.log(response.data);
+                let data = [...this.state.todos];
+                data.push(response.data.todo);
+                this.setState({
+                    todos: data,
+                })
+            }).catch(error => {
+            console.error(error);
         })
     }
 
