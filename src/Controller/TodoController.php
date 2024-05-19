@@ -60,12 +60,12 @@ class TodoController extends AbstractController
         }
     }
 
-    #[Route('/update', name: 'api_todo_update', methods: ['PUT'])]
-    public function update(Request $request): JsonResponse
+    #[Route('/update/{id}', name: 'api_todo_update', methods: ['PUT'])]
+    public function update(Request $request, int $id): JsonResponse
     {
         $content = json_decode($request->getContent());
 
-        $todo = $this->todoRepository->findOneBy(['id' => $content->id]);
+        $todo = $this->todoRepository->findOneBy(['id' => $id]);
         $todo->setName($content->name);
 
         try {
