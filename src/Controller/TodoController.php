@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Todo;
+use App\Form\TodoType;
 use App\Repository\TodoRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,29 @@ class TodoController extends AbstractController
         $this->todoRepository = $todoRepository;
     }
 
+    private function validateForm($content): array
+    {
+        // Remove ID from content before submitting to form (otherwise we get extra field error)
+        $nonObject = (array)$content;
+        unset($nonObject['id']);
+
+        $form = $this->createForm(TodoType::class);
+        $form->submit($nonObject);
+
+        if ($form->isValid())
+            return [true, []];
+
+        $errors = [];
+        foreach ($form->getErrors(true, true) as $error) {
+            $propertyName = $error->getOrigin()->getName();
+            $errors[$propertyName] = $error->getMessage();
+        }
+
+        return [false, $this->json([
+            'message' => ['text' => implode("\n", $errors), 'level' => 'error']
+        ])];
+    }
+
     #[Route('/read', name: 'api_todo_read', methods: ['GET'])]
     public function read(): JsonResponse
     {
@@ -41,6 +65,10 @@ class TodoController extends AbstractController
     public function create(Request $request): JsonResponse
     {
         $content = json_decode($request->getContent());
+
+        [$formValid, $errors] = $this->validateForm($content);
+        if (!$formValid)
+            return $errors;
 
         $todo = new Todo();
         $todo->setTask($content->task);
@@ -69,6 +97,10 @@ class TodoController extends AbstractController
     public function update(Request $request): JsonResponse
     {
         $content = json_decode($request->getContent());
+
+        [$formValid, $errors] = $this->validateForm($content);
+        if (!$formValid)
+            return $errors;
 
         $todo = $this->todoRepository->findOneBy(['id' => $content->id]);
 
