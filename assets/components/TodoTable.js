@@ -20,14 +20,14 @@ function TodoTable() {
 
     const onCreateSubmit = (event) => {
         event.preventDefault();
-        context.createTodo(event, {name: addTodoName, description: addTodoDescription});
+        context.createTodo(event, {task: addTodoName, description: addTodoDescription});
         setAddTodoName('');
         setAddTodoDescription('');
     }
 
     const onEditSubmit = (todoId, event) => {
         event.preventDefault();
-        context.updateTodo({id: todoId, name: editTodoName, description: editTodoDescription});
+        context.updateTodo({id: todoId, task: editTodoName, description: editTodoDescription});
         setEditIsShown(false);
     }
 
@@ -94,7 +94,7 @@ function TodoTable() {
                                         />
                                     </form>
                                     :
-                                    <Typography>{todo.name}</Typography>
+                                    <Typography>{todo.task}</Typography>
                                 }
                             </TableCell>
                             {/*DESCRIPTION*/}
@@ -129,7 +129,7 @@ function TodoTable() {
                                     <Fragment>
                                         <IconButton onClick={() => {
                                             setEditIsShown(todo.id);
-                                            setEditTodoName(todo.name);
+                                            setEditTodoName(todo.task);
                                             setEditTodoDescription(todo.description);
                                         }}><EditIcon/></IconButton>
                                         <IconButton onClick={() => {

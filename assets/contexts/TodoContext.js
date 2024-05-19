@@ -64,7 +64,7 @@ class TodoContextProvider extends Component {
                     return todo.id === response.data.todo.id;
                 })
 
-                todo.name = response.data.todo.name;
+                todo.task = response.data.todo.task;
                 todo.description = response.data.todo.description;
                 this.setState({
                     todos: todos,

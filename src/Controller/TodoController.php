@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Todo;
 use App\Repository\TodoRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +43,7 @@ class TodoController extends AbstractController
         $content = json_decode($request->getContent());
 
         $todo = new Todo();
-        $todo->setName($content->name);
+        $todo->setTask($content->task);
         $todo->setDescription($content->description);
 
         try {
@@ -52,6 +53,10 @@ class TodoController extends AbstractController
             return $this->json([
                 'todo' => $todo->toArray(),
                 'message' => ['text' => 'Task created successfully', 'level' => 'success'],
+            ]);
+        } catch (UniqueConstraintViolationException $exception) {
+            return $this->json([
+                'message' => ['text' => 'Task must be unique', 'level' => 'error'],
             ]);
         } catch (Exception $exception) {
             return $this->json([
@@ -67,13 +72,13 @@ class TodoController extends AbstractController
 
         $todo = $this->todoRepository->findOneBy(['id' => $content->id]);
 
-        if ($todo->getName() === $content->name && $todo->getDescription() === $content->description) {
+        if ($todo->getTask() === $content->task && $todo->getDescription() === $content->description) {
             return $this->json([
-                'message' => ['text' => 'There was no change to the task. Neither the name or the description were changed.', 'level' => 'error'],
+                'message' => ['text' => 'There was no change to the task. Neither the task or the description were changed.', 'level' => 'error'],
             ]);
         }
 
-        $todo->setName($content->name);
+        $todo->setTask($content->task);
         $todo->setDescription($content->description);
 
         try {
@@ -82,6 +87,10 @@ class TodoController extends AbstractController
             return $this->json([
                 'todo' => $todo->toArray(),
                 'message' => ['text' => 'Task updated successfully', 'level' => 'success'],
+            ]);
+        } catch (UniqueConstraintViolationException $exception) {
+            return $this->json([
+                'message' => ['text' => 'Task must be unique', 'level' => 'error'],
             ]);
         } catch (Exception $exception) {
             return $this->json([
