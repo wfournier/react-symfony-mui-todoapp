@@ -25,9 +25,10 @@ function AppSnackbar() {
                   open={context.message.text !== undefined}>
             {context.message.text && (
                 <SnackbarContent style={{backgroundColor: getLevelColor(context.message.level)}}
-                                 message={context.message.text} action={[
-                    <Button onClick={hide} key={'dismiss'} color='inherit'>Dismiss</Button>
-                ]}/>
+                                 message={context.message.text}
+                                 action={[
+                                     <Button onClick={hide} key={'dismiss'} color='inherit'>Dismiss</Button>
+                                 ]}/>
             )}
         </Snackbar>
     );
