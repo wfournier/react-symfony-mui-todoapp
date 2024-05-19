@@ -61,10 +61,11 @@ class TodoContextProvider extends Component {
 
                 let todos = [...this.state.todos];
                 let todo = todos.find(todo => {
-                    return todo.id === data.id
+                    return todo.id === response.data.todo.id;
                 })
 
-                todo.name = data.name;
+                todo.name = response.data.todo.name;
+                todo.description = response.data.todo.description;
                 this.setState({
                     todos: todos,
                     message: response.data.message,

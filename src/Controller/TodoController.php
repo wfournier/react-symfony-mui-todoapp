@@ -43,6 +43,7 @@ class TodoController extends AbstractController
 
         $todo = new Todo();
         $todo->setName($content->name);
+        $todo->setDescription($content->description);
 
         try {
             $this->entityManager->persist($todo);
@@ -65,7 +66,15 @@ class TodoController extends AbstractController
         $content = json_decode($request->getContent());
 
         $todo = $this->todoRepository->findOneBy(['id' => $content->id]);
+
+        if ($todo->getName() === $content->name && $todo->getDescription() === $content->description) {
+            return $this->json([
+                'message' => ['text' => 'There was no change to the task. Neither the name or the description were changed.', 'level' => 'error'],
+            ]);
+        }
+
         $todo->setName($content->name);
+        $todo->setDescription($content->description);
 
         try {
             $this->entityManager->flush();
