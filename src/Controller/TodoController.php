@@ -60,12 +60,12 @@ class TodoController extends AbstractController
         }
     }
 
-    #[Route('/update/{id}', name: 'api_todo_update', methods: ['PUT'])]
-    public function update(Request $request, int $id): JsonResponse
+    #[Route('/update', name: 'api_todo_update', methods: ['PUT'])]
+    public function update(Request $request): JsonResponse
     {
         $content = json_decode($request->getContent());
 
-        $todo = $this->todoRepository->findOneBy(['id' => $id]);
+        $todo = $this->todoRepository->findOneBy(['id' => $content->id]);
         $todo->setName($content->name);
 
         try {
@@ -82,10 +82,12 @@ class TodoController extends AbstractController
         }
     }
 
-    #[Route('/delete/{id}', name: 'api_todo_delete', methods: ['DELETE'])]
-    public function delete(int $id): JsonResponse
+    #[Route('/delete', name: 'api_todo_delete', methods: ['DELETE'])]
+    public function delete(Request $request): JsonResponse
     {
-        $todo = $this->todoRepository->findOneBy(['id' => $id]);
+        $content = json_decode($request->getContent());
+
+        $todo = $this->todoRepository->findOneBy(['id' => $content->id]);
 
         try {
             $this->entityManager->remove($todo);

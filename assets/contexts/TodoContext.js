@@ -42,7 +42,7 @@ class TodoContextProvider extends Component {
 
     // update
     updateTodo(data) {
-        axios.put('/api/todo/update/' + data.id, data)
+        axios.put('/api/todo/update', data)
             .then(response => {
                 let todos = [...this.state.todos];
                 let todo = todos.find(todo => {
@@ -61,7 +61,8 @@ class TodoContextProvider extends Component {
 
     // delete
     deleteTodo(data) {
-        axios.delete('/api/todo/delete/' + data.id)
+        // The signature of axios.delete is different and the data needs to be passed in another data object
+        axios.delete('/api/todo/delete', {data: data})
             .then(response => {
                 let todos = [...this.state.todos];
                 let todo = todos.find(todo => {
