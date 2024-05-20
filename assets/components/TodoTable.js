@@ -1,18 +1,25 @@
 import React, {Fragment, useContext, useState} from 'react';
 import {TodoContext} from "../contexts/TodoContext";
-import {IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography} from "@mui/material";
-import {makeStyles} from '@mui/styles'
+import {
+    IconButton,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteDialog from "./DeleteDialog";
+import {styled} from "@mui/system";
 
-const useStyles = makeStyles(theme => ({
-    thead: {
-        backgroundColor: theme.palette.primary.main,
-    }
+const StyledThead = styled(TableHead)(({theme}) => ({
+    backgroundColor: theme.palette.primary.main,
 }));
 
 function TodoTable() {
@@ -24,8 +31,6 @@ function TodoTable() {
     const [editTodoDescription, setEditTodoDescription] = useState('');
     const [deleteConfirmationIsShown, setDeleteConfirmationIsShown] = useState(false);
     const [todoToBeDeleted, setTodoToBeDeleted] = useState(null);
-
-    const classes = useStyles();
 
     const onCreateSubmit = (event) => {
         event.preventDefault();
@@ -44,13 +49,13 @@ function TodoTable() {
         <Fragment>
             <Table>
                 {/*HEAD*/}
-                <TableHead className={classes.thead}>
+                <StyledThead>
                     <TableRow>
                         <TableCell>Task</TableCell>
                         <TableCell>Description</TableCell>
                         <TableCell align={"right"}>Actions</TableCell>
                     </TableRow>
-                </TableHead>
+                </StyledThead>
                 {/*BODY*/}
                 <TableBody>
                     {/*ADD*/}
@@ -160,8 +165,7 @@ function TodoTable() {
                 )
             }
         </Fragment>
-    )
-        ;
+    );
 }
 
 export default TodoTable;
