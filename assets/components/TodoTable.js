@@ -1,12 +1,19 @@
 import React, {Fragment, useContext, useState} from 'react';
 import {TodoContext} from "../contexts/TodoContext";
 import {IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography} from "@mui/material";
+import {makeStyles} from '@mui/styles'
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteDialog from "./DeleteDialog";
+
+const useStyles = makeStyles(theme => ({
+    thead: {
+        backgroundColor: theme.palette.primary.main,
+    }
+}));
 
 function TodoTable() {
     const context = useContext(TodoContext);
@@ -17,6 +24,8 @@ function TodoTable() {
     const [editTodoDescription, setEditTodoDescription] = useState('');
     const [deleteConfirmationIsShown, setDeleteConfirmationIsShown] = useState(false);
     const [todoToBeDeleted, setTodoToBeDeleted] = useState(null);
+
+    const classes = useStyles();
 
     const onCreateSubmit = (event) => {
         event.preventDefault();
@@ -35,7 +44,7 @@ function TodoTable() {
         <Fragment>
             <Table>
                 {/*HEAD*/}
-                <TableHead>
+                <TableHead className={classes.thead}>
                     <TableRow>
                         <TableCell>Task</TableCell>
                         <TableCell>Description</TableCell>
@@ -116,10 +125,10 @@ function TodoTable() {
                             <TableCell align={"right"}>
                                 {editIsShown === todo.id ?
                                     <Fragment>
-                                        <IconButton onClick={onEditSubmit.bind(this, todo.id)}>
+                                        <IconButton color="primary" onClick={onEditSubmit.bind(this, todo.id)}>
                                             <DoneIcon/>
                                         </IconButton>
-                                        <IconButton onClick={() => {
+                                        <IconButton color="secondary" onClick={() => {
                                             setEditIsShown(false);
                                         }}>
                                             <CloseIcon/>
@@ -127,12 +136,12 @@ function TodoTable() {
                                     </Fragment>
                                     :
                                     <Fragment>
-                                        <IconButton onClick={() => {
+                                        <IconButton color='primary' onClick={() => {
                                             setEditIsShown(todo.id);
                                             setEditTodoName(todo.task);
                                             setEditTodoDescription(todo.description);
                                         }}><EditIcon/></IconButton>
-                                        <IconButton onClick={() => {
+                                        <IconButton color='secondary' onClick={() => {
                                             setTodoToBeDeleted(todo);
                                             setDeleteConfirmationIsShown(true);
                                         }}><DeleteIcon/> </IconButton>
