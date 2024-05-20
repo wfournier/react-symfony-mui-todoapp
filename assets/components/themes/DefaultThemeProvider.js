@@ -1,7 +1,6 @@
 import React from 'react';
-import {createTheme, responsiveFontSizes, ThemeProvider} from '@mui/material/styles';
-import {CssBaseline} from "@mui/material";
 import {blue, grey, red} from "@mui/material/colors";
+import {createTheme, CssBaseline, responsiveFontSizes, ThemeProvider} from "@mui/material";
 
 const theme = createTheme({
     palette: {
