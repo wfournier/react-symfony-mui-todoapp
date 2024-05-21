@@ -85,7 +85,7 @@ function TodoTable() {
                                 }}/>
                         </TableCell>
                         <TableCell align={"right"}>
-                            <IconButton onClick={onCreateSubmit}>
+                            <IconButton onClick={onCreateSubmit} color="primary">
                                 <AddIcon/>
                             </IconButton>
                         </TableCell>
