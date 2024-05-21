@@ -7,10 +7,6 @@ import {styled} from "@mui/system";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import NotFound from "./NotFound";
 
-const Divider = styled('div')(({theme}) => ({
-    divider: theme.mixins.toolbar
-}));
-
 const TodoList = () => (
     <TodoContextProvider>
         <TodoTable/>
@@ -22,7 +18,6 @@ const Router = () => {
     return (
         <BrowserRouter>
             <Navigation/>
-            <Divider/>
             <Routes>
                 <Route exact path={'/'} element={<Navigate to={'/todo-list'} replace/>}/>
                 <Route exact path={'/todo-list'} element={<TodoList/>}/>

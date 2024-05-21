@@ -18,7 +18,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteDialog from "./DeleteDialog";
 import {styled} from "@mui/system";
 
-const StyledThead = styled(TableHead)(({theme}) => ({
+const StyledRow = styled(TableRow)(({theme}) => ({
     backgroundColor: theme.palette.primary.main,
 }));
 
@@ -47,17 +47,9 @@ function TodoTable() {
 
     return (
         <Fragment>
-            <Table>
+            <Table size='small'>
                 {/*HEAD*/}
-                <StyledThead>
-                    <TableRow>
-                        <TableCell>Task</TableCell>
-                        <TableCell>Description</TableCell>
-                        <TableCell align={"right"}>Actions</TableCell>
-                    </TableRow>
-                </StyledThead>
-                {/*BODY*/}
-                <TableBody>
+                <TableHead>
                     {/*ADD*/}
                     <TableRow>
                         {/*NAME*/}
@@ -90,6 +82,14 @@ function TodoTable() {
                             </IconButton>
                         </TableCell>
                     </TableRow>
+                    <StyledRow>
+                        <TableCell>Task</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell align={"right"}>Actions</TableCell>
+                    </StyledRow>
+                </TableHead>
+                {/*BODY*/}
+                <TableBody>
                     {/*DATA*/}
                     {context.todos.slice().reverse().map((todo, index) => (
                         <TableRow key={'todo' + index}>
